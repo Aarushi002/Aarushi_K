@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
+/* Design tokens — neon violet / cyan identity */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --base: #06070a;
+  --surface: #0d1117;
+  --raised: #111827;
+  --accent: #7c3aed;
+  --accent-cyan: #22d3ee;
+  --lavender: #a78bfa;
+  --sky: #38bdf8;
+  --foreground: #e5e7eb;
+  --muted: #9ca3af;
+  --glow-violet: rgba(124, 58, 237, 0.6);
+  --glass: rgba(255, 255, 255, 0.05);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--base);
+  --color-foreground: #e5e7eb;
+  --font-sans: var(--font-syne);
+  --font-mono: var(--font-plex);
+  --color-base: #06070a;
+  --color-surface: #0d1117;
+  --color-raised: #111827;
+  /* Legacy aliases used in components */
+  --color-void: #06070a;
+  --color-elevated: #0d1117;
+  --color-accent: #7c3aed;
+  --color-accent-cyan: #22d3ee;
+  --color-lavender: #a78bfa;
+  --color-sky: #38bdf8;
+  --color-muted: #9ca3af;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--base);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-syne), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: var(--noise);
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+.holo-text {
+  background: linear-gradient(
+    120deg,
+    #e5e7eb 0%,
+    var(--lavender) 35%,
+    var(--accent-cyan) 65%,
+    var(--accent) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass-panel {
+  background: var(--glass);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glow-ring {
+  box-shadow: 0 0 24px var(--glow-violet), 0 0 0 1px rgba(124, 58, 237, 0.25);
+}
+
+.focus-orbit:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+}
+
+.section-band-warm {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.section-band-cool {
+  background-color: var(--raised);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.surface-card:hover {
+  border-color: rgba(34, 211, 238, 0.35);
+  box-shadow: 0 0 28px rgba(124, 58, 237, 0.15);
+}
+
+@media (pointer: fine) {
+  body.custom-cursor-on,
+  body.custom-cursor-on * {
+    cursor: none !important;
+  }
+}
+
+@keyframes tech-ticker-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tech-ticker-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 2.75rem;
+  animation: tech-ticker-marquee 55s linear infinite;
+}
+
+.tech-ticker-track--ltr {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-ticker-track {
+    animation: none;
+  }
+}
+
+/* RedBlackNode — keep in utilities layer so it wins over Tailwind defaults */
+@layer utilities {
+  .redblacknode-band {
+    color: #ff1f1f;
+  }
+  .redblacknode-band :is(p, a, span) {
+    color: #ff1f1f !important;
+    -webkit-text-fill-color: #ff1f1f;
+  }
+  .redblacknode-band a:visited,
+  .redblacknode-band a:hover,
+  .redblacknode-band a:active,
+  .redblacknode-band a:focus,
+  .redblacknode-band a:focus-visible {
+    color: #ff1f1f !important;
+    -webkit-text-fill-color: #ff1f1f;
+  }
+  .redblacknode-band svg {
+    color: #ff1f1f !important;
+    stroke: #ff1f1f !important;
+  }
 }

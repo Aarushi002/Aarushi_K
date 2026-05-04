@@ -1,0 +1,17 @@
+export const earthTechLogos = [
+  { id: "html", label: "HTML", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+  { id: "css", label: "CSS", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+  { id: "javascript", label: "JavaScript", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+  { id: "mongodb", label: "MongoDB", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+  { id: "express", label: "Express", url: "https://cdn.simpleicons.org/express/FFFFFF" },
+  { id: "react", label: "React", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { id: "nodejs", label: "Node.js", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { id: "typescript", label: "TypeScript", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+  { id: "nextjs", label: "Next.js", url: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
+  { id: "shopify", label: "Shopify", url: "https://cdn.simpleicons.org/shopify/7AB55C" },
+  { id: "wordpress", label: "WordPress", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" },
+  { id: "make", label: "Make", url: "https://cdn.simpleicons.org/make/6D00FF" },
+  { id: "n8n", label: "n8n", url: "https://cdn.simpleicons.org/n8n/EA4B71" },
+  { id: "zapier", label: "Zapier", url: "https://cdn.simpleicons.org/zapier/FF4A00" },
+  { id: "angular", label: "Angular", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg" },
+] as const;
