@@ -46,7 +46,7 @@ export function Hero() {
     <section
       ref={root}
       id="home"
-      className="relative z-10 flex min-h-[72dvh] scroll-mt-20 flex-col justify-center px-4 pb-16 pt-10 md:min-h-[76dvh] md:px-10 md:pb-24 md:pt-12"
+      className="relative z-10 flex min-h-0 flex-1 scroll-mt-20 flex-col justify-center px-4 pb-16 pt-10 md:px-10 md:pb-24 md:pt-12"
     >
       <div
         className="pointer-events-none absolute inset-0 z-0 overflow-hidden"

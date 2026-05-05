@@ -7,7 +7,7 @@ export function TechTicker() {
 
   return (
     <section
-      className="relative z-[9] -mt-2 border-y border-white/[0.07] bg-raised/95 py-3.5 backdrop-blur-sm md:-mt-3 md:py-4"
+      className="relative z-[9] mt-auto shrink-0 -mt-2 border-y border-white/[0.07] bg-raised/95 py-3.5 backdrop-blur-sm md:-mt-3 md:py-4"
       aria-label="Technologies: HTML through Angular"
     >
       <div className="overflow-hidden" aria-hidden>

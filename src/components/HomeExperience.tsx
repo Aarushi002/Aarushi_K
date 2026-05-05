@@ -73,8 +73,10 @@ function Shell() {
       <CustomCursor />
       <Navbar />
       <main className="relative z-10">
-        <Hero />
-        <TechTicker />
+        <div className="flex min-h-[100dvh] flex-col">
+          <Hero />
+          <TechTicker />
+        </div>
         <About />
         <SkillsGalaxy />
         <ProjectsTeaser />
