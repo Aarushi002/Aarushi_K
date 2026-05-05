@@ -31,8 +31,11 @@ export function Navbar() {
             playTick();
             if (pathname === "/") {
               e.preventDefault();
-              window.history.replaceState(null, "", "/#home");
+              // Clear hash first so the browser does not apply a second anchor scroll
+              // that fights programmatic scroll and ends mid-page.
+              window.history.replaceState(null, "", "/");
               scrollToSection("home");
+              window.history.replaceState(null, "", "/#home");
             }
           }}
           className="focus-orbit group flex items-center gap-2 text-left sm:gap-2.5"

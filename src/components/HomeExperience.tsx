@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { scrollToSection } from "@/lib/utils";
 import { ScrollProgressProvider } from "@/context/ScrollProgressContext";
 import { SoundProvider } from "@/context/SoundContext";
@@ -46,6 +46,14 @@ function Shell() {
     if (nav?.type !== "reload") return;
     window.history.replaceState(null, "", "/");
     requestAnimationFrame(() => scrollToSection("home"));
+  }, [pathname]);
+
+  /** Align with scrollToSection("home"): hash-only navigation must not leave the viewport scrolled mid-page. */
+  useLayoutEffect(() => {
+    if (pathname !== "/") return;
+    if (typeof window === "undefined") return;
+    if (window.location.hash !== "#home") return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname]);
 
   useKeyboardShortcuts({
