@@ -66,7 +66,7 @@ function Shell() {
       // Retry a few times because route transition + client components can mount
       // after initial hash processing.
       let tries = 0;
-      const maxTries = 12;
+      const maxTries = 80;
       const tick = () => {
         const el = document.getElementById(id);
         if (el) {
@@ -75,7 +75,7 @@ function Shell() {
         }
         tries += 1;
         if (tries < maxTries) {
-          window.setTimeout(tick, 80);
+          window.setTimeout(tick, 50);
         }
       };
 

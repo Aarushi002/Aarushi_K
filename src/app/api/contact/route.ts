@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 /**
- * Delivers contact form submissions to your inbox via Web3Forms.
- *
- * Setup: https://web3forms.com — get an access key, then set `WEB3FORMS_ACCESS_KEY`
- * in `.env.local` (local) and in Vercel → Project → Settings → Environment Variables (production).
+ * Delivers contact form submissions to your inbox via SMTP.
+ * Configure SMTP_* vars in `.env.local` and deployment env settings.
  */
 
-const TO_LABEL = "aarushikrishna5@gmail.com";
+const TO_LABEL = process.env.CONTACT_TO_EMAIL?.trim() || "aarushikrishna5@gmail.com";
 
 type Body = {
   name?: string;
@@ -80,13 +79,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: errors.join(" ") }, { status: 400 });
   }
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY?.trim();
-  if (!accessKey) {
+  const host = process.env.SMTP_HOST?.trim();
+  const portValue = process.env.SMTP_PORT?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
+  const secure =
+    (process.env.SMTP_SECURE?.trim() || "").toLowerCase() === "true";
+
+  if (!host || !portValue || !user || !pass) {
     return NextResponse.json(
       {
         error:
-          "Email is not configured. Add WEB3FORMS_ACCESS_KEY to .env.local (then restart dev), or to Vercel → Environment Variables (then redeploy).",
+          "Email is not configured. Add SMTP_HOST, SMTP_PORT, SMTP_USER and SMTP_PASS to .env.local (then restart dev).",
       },
+      { status: 503 },
+    );
+  }
+
+  const port = Number.parseInt(portValue, 10);
+  if (!Number.isFinite(port) || port <= 0) {
+    return NextResponse.json(
+      { error: "SMTP_PORT must be a valid numeric port." },
       { status: 503 },
     );
   }
@@ -105,48 +118,28 @@ export async function POST(request: Request) {
     `— Sent from site contact form (notify ${TO_LABEL})`,
   ].join("\n");
 
-  let wfRes: Response;
   try {
-    wfRes = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        access_key: accessKey,
-        subject: `[Portfolio] ${name} — ${projectType}`,
-        from_name: name,
-        email,
-        replyto: email,
-        message: messageBody,
-      }),
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: { user, pass },
+    });
+
+    await transporter.verify();
+
+    await transporter.sendMail({
+      from: process.env.CONTACT_FROM_EMAIL?.trim() || user,
+      to: TO_LABEL,
+      replyTo: email,
+      subject: `[Portfolio] ${name} — ${projectType}`,
+      text: messageBody,
     });
   } catch {
     return NextResponse.json(
-      { error: "Could not reach the email service. Check your network and try again." },
-      { status: 502 },
-    );
-  }
-
-  const wfText = await wfRes.text();
-  const wfParsed = parseJsonSafe<{ success?: boolean; message?: string }>(wfText);
-  if (!wfParsed.ok) {
-    return NextResponse.json(
-      {
-        error: `Email service returned a non-JSON response (${wfRes.status}). Verify WEB3FORMS_ACCESS_KEY and try again.`,
-      },
-      { status: 502 },
-    );
-  }
-
-  const payload = wfParsed.value;
-  if (!wfRes.ok || !payload.success) {
-    return NextResponse.json(
       {
         error:
-          payload.message ||
-          `Email service error (${wfRes.status}). Check your Web3Forms key and inbox.`,
+          "Could not send email via SMTP. Verify SMTP credentials and app password, then try again.",
       },
       { status: 502 },
     );
