@@ -13,6 +13,8 @@ type FormState = {
   message: string;
 };
 
+const CONTACT_EMAIL = "aarushikrishna5@gmail.com";
+
 const initial: FormState = {
   name: "",
   email: "",
@@ -52,23 +54,28 @@ export function ContactTransmission() {
     if (Object.keys(nextErrors).length) return;
     if (honeypot.trim()) return;
 
-    setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, _gotcha: honeypot }),
-      });
-      const data = (await res.json()) as { ok?: boolean; error?: string };
-      if (!res.ok) {
-        setSubmitError(data.error || "Could not send. Please try again.");
-        playTick();
-        return;
-      }
+      setSubmitting(true);
+      const subject = `[Portfolio] ${form.name.trim()} — ${form.projectType.trim()}`;
+      const body = [
+        `Name: ${form.name.trim()}`,
+        `Email: ${form.email.trim()}`,
+        `Project type: ${form.projectType.trim()}`,
+        `Budget: ${form.budget.trim()}`,
+        ``,
+        `Message:`,
+        form.message.trim(),
+      ].join("\n");
+
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+        subject,
+      )}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailto;
       setSent(true);
       playTick();
     } catch {
-      setSubmitError("Network error. Check your connection and try again.");
+      setSubmitError("Could not open your email app. Please try again.");
       playTick();
     } finally {
       setSubmitting(false);
@@ -127,7 +134,7 @@ export function ContactTransmission() {
                   </div>
                   <h3 className="text-lg font-bold text-zinc-900">Received</h3>
                   <p className="max-w-sm text-sm text-zinc-600">
-                    Thanks — your message was sent. I&apos;ll get back to you soon.
+                    A prefilled email draft has been opened. Hit send in your mail app.
                   </p>
                   <button
                     type="button"
