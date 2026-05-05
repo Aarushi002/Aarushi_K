@@ -7,6 +7,7 @@ import {
   CustomCursor,
   CustomCursorBodyClass,
 } from "@/components/CustomCursor";
+import { ContactTransmission } from "@/components/ContactTransmission";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ProjectsShowcase } from "@/components/ProjectsShowcase";
@@ -40,6 +41,7 @@ export default function ProjectsPage() {
             </Link>
           </div>
           <ProjectsShowcase />
+          <ContactTransmission />
         </main>
         <Footer />
         <CommandPalette

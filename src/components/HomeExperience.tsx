@@ -22,7 +22,6 @@ import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { RedBlackNodeBand } from "@/components/RedBlackNodeBand";
 import { SkillsGalaxy } from "@/components/SkillsGalaxy";
 import { SleepEasterEgg } from "@/components/SleepEasterEgg";
-import { TechTicker } from "@/components/TechTicker";
 
 const CanvasLayer = dynamic(
   () =>
@@ -56,6 +55,41 @@ function Shell() {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname]);
 
+  useEffect(() => {
+    if (pathname !== "/") return;
+    if (typeof window === "undefined") return;
+
+    const runHashScroll = () => {
+      const id = window.location.hash.replace(/^#/, "");
+      if (!id || id === "home") return;
+
+      // Retry a few times because route transition + client components can mount
+      // after initial hash processing.
+      let tries = 0;
+      const maxTries = 12;
+      const tick = () => {
+        const el = document.getElementById(id);
+        if (el) {
+          scrollToSection(id);
+          return;
+        }
+        tries += 1;
+        if (tries < maxTries) {
+          window.setTimeout(tick, 80);
+        }
+      };
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(tick);
+      });
+    };
+
+    runHashScroll();
+
+    window.addEventListener("hashchange", runHashScroll);
+    return () => window.removeEventListener("hashchange", runHashScroll);
+  }, [pathname]);
+
   useKeyboardShortcuts({
     onCommandPalette: () => setPaletteOpen(true),
     onSleepSequence: () => setSleepOpen(true),
@@ -75,7 +109,6 @@ function Shell() {
       <main className="relative z-10">
         <div className="flex min-h-[100dvh] flex-col">
           <Hero />
-          <TechTicker />
         </div>
         <About />
         <SkillsGalaxy />

@@ -84,7 +84,7 @@ export function HeroEarthScene({ reducedMotion }: Props) {
 
   return (
     <>
-      <group position={[2.15, 0.58, 0.2]} scale={1.45}>
+      <group position={[1.75, 0.52, 0.2]} scale={1.36}>
         <Float
           speed={reducedMotion ? 0 : 1.2}
           rotationIntensity={0.25}
@@ -126,7 +126,7 @@ export function HeroEarthScene({ reducedMotion }: Props) {
 
           <group ref={ringsRef}>
             <mesh rotation={[Math.PI / 2.4, 0.5, 0.2]}>
-              <torusGeometry args={[1.55, 0.012, 8, 96]} />
+              <torusGeometry args={[1.28, 0.006, 8, 96]} />
               <meshBasicMaterial
                 color="#7c3aed"
                 transparent
@@ -134,19 +134,11 @@ export function HeroEarthScene({ reducedMotion }: Props) {
               />
             </mesh>
             <mesh rotation={[Math.PI / 3.2, -0.4, -0.3]}>
-              <torusGeometry args={[1.72, 0.01, 8, 96]} />
+              <torusGeometry args={[1.38, 0.005, 8, 96]} />
               <meshBasicMaterial
                 color="#22d3ee"
                 transparent
                 opacity={0.45}
-              />
-            </mesh>
-            <mesh rotation={[-0.2, 1.1, 0.6]}>
-              <torusGeometry args={[1.88, 0.008, 8, 96]} />
-              <meshBasicMaterial
-                color="#a78bfa"
-                transparent
-                opacity={0.35}
               />
             </mesh>
           </group>
@@ -163,10 +155,10 @@ export function HeroEarthScene({ reducedMotion }: Props) {
         />
       </group>
 
-      <group position={[2.8, 0.35, -0.5]}>
+      <group position={[2.35, 0.28, -0.5]}>
         <Sparkles
           count={reducedMotion ? 28 : 72}
-          scale={[5, 4.5, 4]}
+          scale={[5.0, 4.45, 4.0]}
           size={0.55}
           speed={reducedMotion ? 0 : 0.18}
           color="#a78bfa"
@@ -221,7 +213,7 @@ function LandPatches({ reducedMotion }: { reducedMotion: boolean }) {
 
 function TechGrid({ reducedMotion }: { reducedMotion: boolean }) {
   return (
-    <group rotation={[-Math.PI / 2.5, 0, 0.35]} position={[0, -1.8, -1]}>
+    <group rotation={[-Math.PI / 2.5, 0, 0.35]} position={[0, -1.58, -1]}>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[14, 14, 24, 24]} />
         <meshStandardMaterial

@@ -24,13 +24,34 @@ export function Hero() {
   const { playTick } = useSound();
 
   useLayoutEffect(() => {
-    if (!root.current || reduced) return;
+    if (!root.current) return;
     const q = gsap.utils.selector(root);
+
+    const resetVisible = () => {
+      gsap.set(
+        [
+          q(".hero-eyebrow"),
+          q(".hero-title span"),
+          q(".hero-sub"),
+          q(".hero-tag"),
+          q(".hero-cta"),
+          q(".hero-scroll"),
+        ],
+        { opacity: 1, y: 0, clearProps: "opacity,transform" },
+      );
+    };
+
+    if (reduced) {
+      resetVisible();
+      return;
+    }
+
+    resetVisible();
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tl.from(q(".hero-eyebrow"), { y: 24, opacity: 0, duration: 0.7 }, 0);
     tl.from(
       q(".hero-title span"),
-      { y: 55, opacity: 0, stagger: 0.06, duration: 0.9 },
+      { y: 55, opacity: 0, stagger: 0.06, duration: 0.9, immediateRender: false },
       0.12,
     );
     tl.from(q(".hero-sub"), { y: 28, opacity: 0, duration: 0.75 }, 0.35);
@@ -39,6 +60,7 @@ export function Hero() {
     tl.from(q(".hero-scroll"), { opacity: 0, y: 10, duration: 0.6 }, 0.75);
     return () => {
       tl.kill();
+      resetVisible();
     };
   }, [reduced]);
 
@@ -49,7 +71,7 @@ export function Hero() {
       className="relative z-10 flex min-h-0 flex-1 scroll-mt-20 flex-col justify-center px-4 pb-16 pt-10 md:px-10 md:pb-24 md:pt-12"
     >
       <div
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -top-24 z-0 overflow-hidden md:-top-32"
         aria-hidden
       >
         <HeroBackdrop />
@@ -59,7 +81,7 @@ export function Hero() {
       <div className="relative z-10 flex min-h-0 flex-1 flex-col justify-center">
       <div className="pointer-events-none absolute left-0 top-1/3 h-px w-24 bg-gradient-to-r from-accent to-accent-cyan md:w-40" />
 
-      <div className="mx-auto w-full max-w-5xl min-w-0 -translate-y-6 flex flex-col gap-7 md:-translate-y-10 md:gap-8 lg:-translate-y-14">
+      <div className="mx-auto w-full max-w-5xl min-w-0 -translate-x-8 -translate-y-12 flex flex-col gap-7 sm:-translate-x-10 sm:-translate-y-12 md:-translate-x-14 md:-translate-y-16 md:gap-8 lg:-translate-x-20 lg:-translate-y-24">
         <p className="hero-eyebrow flex max-w-full flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10px] font-semibold uppercase leading-snug text-muted sm:text-xs sm:gap-x-3 sm:tracking-[0.26em] md:tracking-[0.34em] lg:tracking-[0.4em]">
           <Laptop
             className="h-3.5 w-3.5 shrink-0 text-accent-cyan sm:h-4 sm:w-4"
@@ -91,7 +113,7 @@ export function Hero() {
             strength={0.22}
             onClick={() => {
               playTick();
-              scrollToSection("about");
+              window.location.assign("/projects");
             }}
             className="focus-orbit inline-flex items-center justify-center bg-accent px-10 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-[0_0_32px_rgba(124,58,237,0.45)] transition hover:bg-lavender hover:shadow-[0_0_36px_rgba(34,211,238,0.25)]"
           >

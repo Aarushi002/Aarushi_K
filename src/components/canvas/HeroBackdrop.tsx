@@ -12,7 +12,7 @@ export function HeroBackdrop() {
     <div className="pointer-events-none absolute inset-0 z-0 h-full min-h-0 w-full">
       <Canvas
         className="h-full w-full"
-        camera={{ position: [3.8, 1.62, 5.2], fov: 42, near: 0.1, far: 80 }}
+        camera={{ position: [3.8, 1.68, 5.2], fov: 42, near: 0.1, far: 80 }}
         gl={{
           alpha: true,
           antialias: true,

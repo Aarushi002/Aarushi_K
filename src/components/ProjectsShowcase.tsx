@@ -52,15 +52,15 @@ export function ProjectsShowcase() {
   return (
     <section
       id="projects"
-      className="relative z-10 scroll-mt-20 border-t border-white/10 bg-base px-4 py-24 md:px-10 md:py-32"
+      className="relative z-10 scroll-mt-20 border-t border-zinc-300/80 bg-zinc-100 px-4 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           kicker="Projects"
           title={
-            <>
-              Work that&apos;s <span className="holo-text">out in the wild</span>
-            </>
+            <span className="text-zinc-900">
+              Work that&apos;s out in the wild
+            </span>
           }
         />
 
@@ -124,6 +124,9 @@ export function ProjectsShowcase() {
         {category === "all" ? (
           <div className="mt-14 space-y-14 md:space-y-20">
             {projectCategories.map((cat) => {
+              const isShopifySection = cat === "Shopify";
+              const isMernSection = cat === "MERN Stack";
+              const isWordpressSection = cat === "WordPress & WooCommerce";
               const list = projects.filter(
                 (p) => p.category === cat && projectMatchesQuery(p, query),
               );
@@ -133,13 +136,27 @@ export function ProjectsShowcase() {
                 <section
                   key={cat}
                   id={sid}
-                  className="scroll-mt-24"
+                  className={cn(
+                    "scroll-mt-24",
+                    (isMernSection || isWordpressSection) &&
+                      "rounded-2xl border border-white/10 bg-base p-6 md:p-8",
+                    isShopifySection &&
+                      "rounded-2xl border border-zinc-300/80 bg-zinc-100 p-6 md:p-8",
+                  )}
                   aria-labelledby={`heading-${sid}`}
                 >
-                  <div className="border-b border-white/10 pb-3">
+                  <div
+                    className={cn(
+                      "border-b border-white/10 pb-3",
+                      isShopifySection && "border-zinc-300/90",
+                    )}
+                  >
                     <h3
                       id={`heading-${sid}`}
-                      className="text-xl font-bold tracking-tight text-foreground md:text-2xl"
+                      className={cn(
+                        "text-xl font-bold tracking-tight text-foreground md:text-2xl",
+                        isShopifySection && "text-zinc-900",
+                      )}
                     >
                       {CATEGORY_SECTION_TITLES[cat]}
                     </h3>
@@ -162,19 +179,35 @@ export function ProjectsShowcase() {
             })}
           </div>
         ) : (
-          <ul className="mt-14 grid gap-4 md:grid-cols-2">
-            {filtered.map((p, i) => (
-              <li key={p.id}>
-                <ProjectCard
-                  project={p}
-                  index={i}
-                  reduced={reduced}
-                  onOpen={() => setActive(p)}
-                  onHoverSound={playTick}
-                />
-              </li>
-            ))}
-          </ul>
+          <div
+            className={cn(
+              (category === "MERN Stack" || category === "WordPress & WooCommerce") &&
+                "rounded-2xl border border-white/10 bg-base p-6 md:p-8",
+              category === "Shopify" && "rounded-2xl border border-zinc-300/80 bg-zinc-100 p-6 md:p-8",
+            )}
+          >
+            <ul
+              className={cn(
+                "mt-14 grid gap-4 md:grid-cols-2",
+                (category === "MERN Stack" ||
+                  category === "WordPress & WooCommerce" ||
+                  category === "Shopify") &&
+                  "mt-0",
+              )}
+            >
+              {filtered.map((p, i) => (
+                <li key={p.id}>
+                  <ProjectCard
+                    project={p}
+                    index={i}
+                    reduced={reduced}
+                    onOpen={() => setActive(p)}
+                    onHoverSound={playTick}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
 
         {filtered.length === 0 ? (
@@ -206,6 +239,7 @@ function ProjectCard({
   onOpen: () => void;
   onHoverSound: () => void;
 }) {
+  const isShopify = project.category === "Shopify";
   const ref = useRef<HTMLDivElement>(null);
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
@@ -240,14 +274,28 @@ function ProjectCard({
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       onMouseEnter={onHoverSound}
-      className="surface-card relative h-full border border-white/10 p-6 transition-colors hover:border-accent-cyan/50"
+      className={cn(
+        "surface-card relative h-full border border-white/10 p-6 transition-colors hover:border-accent-cyan/50",
+        isShopify &&
+          "!border-zinc-300/90 !bg-zinc-100 text-zinc-900 hover:!border-cyan-700/45",
+      )}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
+          <p
+            className={cn(
+              "font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-muted",
+              isShopify && "text-zinc-600",
+            )}
+          >
             {project.category}
           </p>
-          <h3 className="mt-2 text-lg font-bold text-foreground md:text-xl">
+          <h3
+            className={cn(
+              "mt-2 text-lg font-bold text-foreground md:text-xl",
+              isShopify && "text-zinc-900",
+            )}
+          >
             {project.title}
           </h3>
         </div>
@@ -255,14 +303,22 @@ function ProjectCard({
           Live
         </span>
       </div>
-      <p className="mt-4 text-sm leading-relaxed text-muted">
+      <p
+        className={cn(
+          "mt-4 text-sm leading-relaxed text-muted",
+          isShopify && "text-zinc-700",
+        )}
+      >
         {project.description}
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         {project.tags.map((t) => (
           <span
             key={t}
-            className="border border-white/10 bg-base px-2 py-1 font-mono text-[10px] text-sky"
+            className={cn(
+              "border border-white/10 bg-base px-2 py-1 font-mono text-[10px] text-sky",
+              isShopify && "border-zinc-300 bg-white text-cyan-700",
+            )}
           >
             {t}
           </span>

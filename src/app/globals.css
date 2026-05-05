@@ -129,33 +129,6 @@ body::before {
   }
 }
 
-@keyframes tech-ticker-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.tech-ticker-track {
-  display: flex;
-  width: max-content;
-  align-items: center;
-  gap: 2.75rem;
-  animation: tech-ticker-marquee 55s linear infinite;
-}
-
-.tech-ticker-track--ltr {
-  animation-direction: reverse;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tech-ticker-track {
-    animation: none;
-  }
-}
-
 /* RedBlackNode — keep in utilities layer so it wins over Tailwind defaults */
 @layer utilities {
   .redblacknode-band {

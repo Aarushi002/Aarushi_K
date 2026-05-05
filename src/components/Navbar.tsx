@@ -11,7 +11,7 @@ import { useSound } from "@/context/SoundContext";
 import { SoundToggle } from "@/components/SoundToggle";
 
 const LINKS = [
-  { id: "about", label: "About", href: "/#about" },
+  { id: "home", label: "Home", href: "/" },
   { id: "skills", label: "Skills", href: "/#skills" },
   { id: "projects", label: "Projects", href: "/projects" },
   { id: "contact", label: "Hire Me", href: "/#contact" },
@@ -62,6 +62,8 @@ export function Navbar() {
             const href =
               l.id === "projects" && pathname === "/projects"
                 ? "#projects"
+                : l.id === "contact" && pathname === "/projects"
+                  ? "#contact"
                 : l.href;
             const base =
               "focus-orbit border-b-2 border-transparent px-4 py-2 text-xs font-semibold uppercase tracking-wider transition hover:border-accent-cyan hover:text-foreground";
@@ -75,6 +77,12 @@ export function Navbar() {
                   onClick={(e) => {
                     hireMeConfettiClick(e);
                     playTick();
+                    if (pathname === "/") {
+                      e.preventDefault();
+                      window.history.replaceState(null, "", "/");
+                      scrollToSection("contact");
+                      window.history.replaceState(null, "", "/#contact");
+                    }
                   }}
                   className={base}
                 >
@@ -87,7 +95,20 @@ export function Navbar() {
               <Link
                 key={l.id}
                 href={href}
-                onClick={() => playTick()}
+                onClick={(e) => {
+                  playTick();
+                  if (l.id === "home") {
+                    if (pathname === "/") {
+                      e.preventDefault();
+                      window.history.replaceState(null, "", "/");
+                      scrollToSection("home");
+                      window.history.replaceState(null, "", "/#home");
+                    }
+                  } else if (l.id === "skills" && pathname !== "/") {
+                    e.preventDefault();
+                    window.location.assign("/#skills");
+                  }
+                }}
                 className={base}
               >
                 {l.label}
@@ -123,6 +144,8 @@ export function Navbar() {
               const href =
                 l.id === "projects" && pathname === "/projects"
                   ? "#projects"
+                  : l.id === "contact" && pathname === "/projects"
+                    ? "#contact"
                   : l.href;
               const base =
                 "focus-orbit border-b border-white/5 px-4 py-4 text-left text-sm font-semibold uppercase tracking-wide text-muted hover:bg-surface hover:text-accent-cyan";
@@ -137,6 +160,12 @@ export function Navbar() {
                     onClick={(e) => {
                       hireMeConfettiClick(e);
                       playTick();
+                      if (pathname === "/") {
+                        e.preventDefault();
+                        window.history.replaceState(null, "", "/");
+                        scrollToSection("contact");
+                        window.history.replaceState(null, "", "/#contact");
+                      }
                       setOpen(false);
                     }}
                   >
@@ -150,8 +179,19 @@ export function Navbar() {
                   key={l.id}
                   href={href}
                   className={base}
-                  onClick={() => {
+                  onClick={(e) => {
                     playTick();
+                    if (l.id === "home") {
+                      if (pathname === "/") {
+                        e.preventDefault();
+                        window.history.replaceState(null, "", "/");
+                        scrollToSection("home");
+                        window.history.replaceState(null, "", "/#home");
+                      }
+                    } else if (l.id === "skills" && pathname !== "/") {
+                      e.preventDefault();
+                      window.location.assign("/#skills");
+                    }
                     setOpen(false);
                   }}
                 >

@@ -37,9 +37,7 @@ async function ensureAudioContext(): Promise<AudioContext | null> {
   }
 }
 
-async function playBeep() {
-  const ctx = await ensureAudioContext();
-  if (!ctx) return;
+function playBeepWithContext(ctx: AudioContext) {
   try {
     const o = ctx.createOscillator();
     const g = ctx.createGain();
@@ -58,6 +56,24 @@ async function playBeep() {
   }
 }
 
+function playBeepImmediate() {
+  if (typeof window === "undefined") return;
+  if (!sharedCtx || sharedCtx.state === "closed") {
+    try {
+      sharedCtx = new AudioContext();
+    } catch {
+      return;
+    }
+  }
+  const ctx = sharedCtx;
+  if (!ctx) return;
+  if (ctx.state === "suspended") {
+    void ctx.resume().then(() => playBeepWithContext(ctx)).catch(() => {});
+    return;
+  }
+  playBeepWithContext(ctx);
+}
+
 export function SoundProvider({ children }: { children: React.ReactNode }) {
   /** Default on; only opt-out when user has saved "0". */
   const [enabled, setEnabledState] = useState(true);
@@ -72,6 +88,22 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    // Some browsers keep AudioContext suspended until a trusted gesture.
+    // Prime/unlock once on first interaction.
+    const unlock = () => {
+      void ensureAudioContext();
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+    window.addEventListener("pointerdown", unlock, { passive: true });
+    window.addEventListener("keydown", unlock);
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, []);
+
   const setEnabled = useCallback((v: boolean) => {
     setEnabledState(v);
     try {
@@ -84,7 +116,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   const playTick = useCallback(() => {
     if (!enabled) return;
-    void playBeep();
+    playBeepImmediate();
   }, [enabled]);
 
   const value = useMemo(
