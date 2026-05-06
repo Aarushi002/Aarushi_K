@@ -13,8 +13,6 @@ type FormState = {
   message: string;
 };
 
-const CONTACT_EMAIL = "aarushikrishna5@gmail.com";
-
 const initial: FormState = {
   name: "",
   email: "",
@@ -22,6 +20,9 @@ const initial: FormState = {
   budget: "",
   message: "",
 };
+
+/** Must be public — Web3Forms blocks server-side calls on the free plan. */
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim() ?? "";
 
 function validate(data: FormState) {
   const errors: Partial<Record<keyof FormState, string>> = {};
@@ -54,28 +55,70 @@ export function ContactTransmission() {
     if (Object.keys(nextErrors).length) return;
     if (honeypot.trim()) return;
 
+    if (!WEB3FORMS_KEY) {
+      setSubmitError(
+        "Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to .env.local (your Web3Forms access key), then restart dev.",
+      );
+      playTick();
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      setSubmitting(true);
-      const subject = `[Portfolio] ${form.name.trim()} — ${form.projectType.trim()}`;
-      const body = [
-        `Name: ${form.name.trim()}`,
-        `Email: ${form.email.trim()}`,
-        `Project type: ${form.projectType.trim()}`,
-        `Budget: ${form.budget.trim()}`,
+      const name = form.name.trim();
+      const email = form.email.trim();
+      const projectType = form.projectType.trim();
+      const budget = form.budget.trim();
+      const message = form.message.trim();
+
+      const messageBody = [
+        `Portfolio contact form`,
+        `────────────────────────`,
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Project type: ${projectType}`,
+        `Budget: ${budget}`,
         ``,
         `Message:`,
-        form.message.trim(),
+        message,
       ].join("\n");
 
-      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-        subject,
-      )}&body=${encodeURIComponent(body)}`;
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `[Portfolio] ${name} — ${projectType}`,
+          name,
+          email,
+          replyto: email,
+          message: messageBody,
+          botcheck: false,
+        }),
+      });
 
-      window.location.href = mailto;
+      const data = (await res.json()) as {
+        success?: boolean;
+        message?: string;
+        body?: { message?: string };
+      };
+
+      if (!res.ok || !data.success) {
+        setSubmitError(
+          data.body?.message ||
+            data.message ||
+            `Could not send (${res.status}). Check your Web3Forms key.`,
+        );
+        playTick();
+        return;
+      }
       setSent(true);
       playTick();
     } catch {
-      setSubmitError("Could not open your email app. Please try again.");
+      setSubmitError("Network error. Check your connection and try again.");
       playTick();
     } finally {
       setSubmitting(false);
@@ -134,7 +177,7 @@ export function ContactTransmission() {
                   </div>
                   <h3 className="text-lg font-bold text-zinc-900">Received</h3>
                   <p className="max-w-sm text-sm text-zinc-600">
-                    A prefilled email draft has been opened. Hit send in your mail app.
+                    Thanks — your message was sent. I&apos;ll get back to you soon.
                   </p>
                   <button
                     type="button"
