@@ -131,10 +131,10 @@ export function ContactTransmission() {
   return (
     <section
       id="contact"
-      className="relative z-10 scroll-mt-20 border-y border-stone-200/90 bg-gradient-to-b from-stone-50 via-zinc-50 to-stone-100 px-4 py-14 text-zinc-900 md:px-10 md:py-20"
+      className="relative z-10 scroll-mt-20 border-y border-stone-200/90 bg-gradient-to-b from-stone-50 via-zinc-50 to-stone-100 px-4 py-14 text-zinc-900 sm:px-6 md:px-10 md:py-20"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_1.1fr] lg:items-start lg:gap-10">
+        <div className="grid gap-7 md:gap-8 lg:grid-cols-[minmax(0,1fr)_1.1fr] lg:items-start lg:gap-10">
           <div className="min-w-0">
             <p className="font-mono text-xs font-medium uppercase tracking-[0.4em] text-violet-600">
               Contact
@@ -160,7 +160,7 @@ export function ContactTransmission() {
 
           <motion.div
             layout
-            className="relative min-w-0 rounded-xl border border-zinc-200/90 bg-white/95 p-5 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.12)] ring-1 ring-zinc-900/[0.04] backdrop-blur-sm md:p-6"
+            className="relative min-w-0 rounded-xl border border-zinc-200/90 bg-white/95 p-4 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.12)] ring-1 ring-zinc-900/[0.04] backdrop-blur-sm sm:p-5 md:p-6"
           >
             <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-accent via-lavender to-accent-cyan" aria-hidden />
             <AnimatePresence mode="wait">
@@ -170,7 +170,7 @@ export function ContactTransmission() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="relative flex flex-col items-center gap-3 py-6 pl-4 text-center"
+                  className="relative flex flex-col items-center gap-3 py-6 pl-3 text-center sm:pl-4"
                 >
                   <div className="flex h-14 w-14 items-center justify-center bg-accent-cyan text-base text-white">
                     <Send className="h-7 w-7" aria-hidden />
@@ -201,7 +201,7 @@ export function ContactTransmission() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onSubmit={onSubmit}
-                  className="relative space-y-3 pl-4"
+                  className="relative space-y-3 pl-3 sm:pl-4"
                   noValidate
                 >
                   <div className="grid gap-3 md:grid-cols-2">

@@ -23,9 +23,9 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 border-t border-white/10 bg-base px-4 py-5 md:px-10 md:py-6">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4">
-        <p className="justify-self-start bg-gradient-to-r from-lavender via-foreground to-accent-cyan bg-clip-text text-base font-semibold text-transparent md:text-lg">
+    <footer className="relative z-10 border-t border-white/10 bg-base px-4 py-5 sm:px-6 md:px-10 md:py-6">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-3 text-center sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4 sm:text-left">
+        <p className="justify-self-center bg-gradient-to-r from-lavender via-foreground to-accent-cyan bg-clip-text text-base font-semibold text-transparent sm:justify-self-start md:text-lg">
           Made by Aarushi Krishna
         </p>
         <nav
@@ -44,7 +44,7 @@ export function Footer() {
             </a>
           ))}
         </nav>
-        <p className="justify-self-end font-mono text-[10px] uppercase tracking-wider text-muted md:text-[11px]">
+        <p className="justify-self-center font-mono text-[10px] uppercase tracking-wider text-muted sm:justify-self-end md:text-[11px]">
           © {year}
         </p>
       </div>

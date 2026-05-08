@@ -64,7 +64,7 @@ export function ProjectsShowcase() {
           }
         />
 
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:justify-between">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch lg:justify-between">
           <div
             className="flex flex-wrap gap-2"
             role="tablist"
@@ -109,7 +109,7 @@ export function ProjectsShowcase() {
             ))}
           </div>
 
-          <label className="glass-panel flex min-h-[48px] max-w-md flex-1 items-center gap-3 px-4 lg:max-w-sm">
+          <label className="glass-panel flex min-h-[48px] w-full items-center gap-3 px-4 sm:max-w-md lg:max-w-sm">
             <Search className="h-4 w-4 shrink-0 text-muted" aria-hidden />
             <input
               value={query}
@@ -137,7 +137,7 @@ export function ProjectsShowcase() {
                   key={cat}
                   id={sid}
                   className={cn(
-                    "scroll-mt-24",
+                    "scroll-mt-24 overflow-hidden",
                     (isMernSection || isWordpressSection) &&
                       "rounded-2xl border border-white/10 bg-base p-6 md:p-8",
                     isShopifySection &&
@@ -188,7 +188,7 @@ export function ProjectsShowcase() {
           >
             <ul
               className={cn(
-                "mt-14 grid gap-4 md:grid-cols-2",
+                "mt-10 grid gap-4 md:mt-14 md:grid-cols-2",
                 (category === "MERN Stack" ||
                   category === "WordPress & WooCommerce" ||
                   category === "Shopify") &&

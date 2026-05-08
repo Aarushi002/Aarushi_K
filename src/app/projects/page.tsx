@@ -31,8 +31,8 @@ export default function ProjectsPage() {
         <CustomCursorBodyClass active />
         <CustomCursor />
         <Navbar />
-        <main className="relative z-10">
-          <div className="border-b border-white/10 px-4 py-6 md:px-10">
+        <main className="relative z-10 pt-[66px] sm:pt-[70px]">
+          <div className="border-b border-white/10 px-4 py-5 sm:px-6 md:px-10 md:py-6">
             <Link
               href="/"
               className="focus-orbit font-mono text-xs font-semibold uppercase tracking-widest text-muted transition hover:text-accent-cyan"
