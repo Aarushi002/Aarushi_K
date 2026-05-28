@@ -106,8 +106,8 @@ function Shell() {
       <CustomCursorBodyClass active={!loading} />
       <CustomCursor />
       <Navbar />
-      <main className="relative z-10">
-        <div className="flex min-h-[100dvh] flex-col">
+      <main className="relative z-10 pt-[66px] sm:pt-[70px]">
+        <div className="flex min-h-[calc(100dvh-66px)] flex-col sm:min-h-[calc(100dvh-70px)]">
           <Hero />
         </div>
         <About />

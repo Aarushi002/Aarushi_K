@@ -14,6 +14,7 @@ const LINKS = [
   { id: "home", label: "Home", href: "/" },
   { id: "skills", label: "Skills", href: "/#skills" },
   { id: "projects", label: "Projects", href: "/projects" },
+  { id: "resume", label: "Resume", href: "/resume" },
   { id: "contact", label: "Hire Me", href: "/#contact" },
 ] as const;
 

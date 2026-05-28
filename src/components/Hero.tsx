@@ -68,7 +68,7 @@ export function Hero() {
     <section
       ref={root}
       id="home"
-      className="relative z-10 flex min-h-0 flex-1 scroll-mt-20 flex-col justify-center px-4 pb-14 pt-10 sm:px-6 md:px-10 md:pb-22 md:pt-12"
+      className="relative z-10 flex min-h-0 flex-1 scroll-mt-20 flex-col justify-start px-4 pb-12 pt-0 sm:px-6 sm:pt-1 md:px-10 md:pb-16 md:pt-3 lg:pt-4"
     >
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 -top-24 z-0 overflow-hidden md:-top-32"
@@ -78,22 +78,22 @@ export function Hero() {
         <div className="absolute inset-0 z-[1] bg-gradient-to-r from-base from-35% via-base/40 to-transparent" />
       </div>
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col justify-center">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col justify-start pt-0">
       <div className="pointer-events-none absolute left-0 top-1/3 hidden h-px w-24 bg-gradient-to-r from-accent to-accent-cyan sm:block md:w-40" />
 
-      <div className="mx-auto w-full max-w-5xl min-w-0 -translate-y-4 flex flex-col gap-6 sm:-translate-y-6 sm:gap-7 md:-translate-x-6 md:-translate-y-10 md:gap-8 lg:-translate-x-12 lg:-translate-y-14">
-        <p className="hero-eyebrow flex max-w-full flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10px] font-semibold uppercase leading-snug text-muted sm:text-xs sm:gap-x-3 sm:tracking-[0.26em] md:tracking-[0.34em] lg:tracking-[0.4em]">
+      <div className="mx-auto -mt-24 flex min-h-0 w-full max-w-5xl min-w-0 flex-1 flex-col gap-6 sm:-mt-[4.5rem] sm:gap-7 md:-mt-12 md:gap-8 lg:-mt-8">
+        <p className="hero-eyebrow flex max-w-full items-center gap-2 font-mono text-[10px] font-semibold uppercase leading-snug tracking-[0.12em] text-muted sm:gap-x-3 sm:text-xs sm:tracking-[0.26em] md:tracking-[0.34em] lg:tracking-[0.4em]">
           <Laptop
             className="h-3.5 w-3.5 shrink-0 text-accent-cyan sm:h-4 sm:w-4"
             strokeWidth={2.1}
             aria-hidden
           />
-          <span className="w-full min-w-0 max-w-full sm:w-auto">
+          <span className="min-w-0 flex-1 truncate sm:flex-none sm:truncate-none">
             Sole Proprietor · Full-Stack Developer · Freelancer
           </span>
         </p>
 
-        <h1 className="hero-title max-w-4xl text-[2.2rem] font-bold leading-[0.95] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+        <h1 className="hero-title max-w-4xl text-[2.05rem] font-bold leading-[1.02] tracking-tight text-foreground sm:text-5xl sm:leading-[1] md:text-6xl lg:text-7xl xl:text-8xl">
           <span className="inline-block">Hi,</span>{" "}
           <span className="inline-block">I&apos;m</span>{" "}
           <span className="inline-block holo-text">Aarushi Krishna</span>
@@ -107,7 +107,7 @@ export function Hero() {
           Code. Debug. Repeat. Occasionally sleep.
         </p>
 
-        <div className="hero-cta flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div className="hero-cta mt-auto flex flex-col gap-3 pb-44 pt-4 sm:flex-row sm:items-center sm:gap-4 sm:pb-48 md:pb-52 lg:mt-0 lg:pb-0 lg:pt-0">
           <MagneticButton
             type="button"
             strength={0.22}
@@ -137,7 +137,7 @@ export function Hero() {
 
       <button
         type="button"
-        className="hero-scroll focus-orbit group absolute bottom-4 left-4 text-muted sm:bottom-5 sm:left-6 md:bottom-6 md:left-10"
+        className="hero-scroll focus-orbit group absolute bottom-6 left-10 hidden text-muted lg:block"
         onClick={() => scrollToSection("about")}
         aria-label="Scroll to about section"
       >
